@@ -1,14 +1,11 @@
-const Todo = ({key, text, active, onClick}) => {
-
-    return(
+const Todo = ({id, text, active, onClick}) => (
         <li
+            key={id}
             onClick={onClick}
             style={{textDecoration: active ? "line-through" : "none", cursor:"pointer"}} 
-            key={key}
         >
             {text}
         </li>
     )
-}
 
-export default Todo
+export default Todo;

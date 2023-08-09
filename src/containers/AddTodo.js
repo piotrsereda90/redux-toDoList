@@ -1,16 +1,17 @@
+import { useDispatch } from 'react-redux';
 import React,{ useState } from 'react';
-import { connect } from 'react-redux';
 import { addTodo } from '../actions/todo.actions';
 
-const AddTodo = ({addTask}) => {
-    console.log(addTask)
+const AddTodo = () => {
 
     const [inputValue, setInputValue] = useState("")
+    const dispatch = useDispatch()
 
     const handleInputChange = (e) => setInputValue(e.target.value);
+    
     const handleSubmit = () => {
         if(inputValue) {
-            addTask(inputValue);
+            dispatch(addTodo(inputValue));
             setInputValue("")
         } else{
             alert('Enter some text')
@@ -24,8 +25,5 @@ const AddTodo = ({addTask}) => {
         </div>
     )
 }
-const mapDispatchToProps = (dispatch) => ({
-    addTask: (text)=> dispatch(addTodo(text))
-})
 
-export default connect(null, mapDispatchToProps)(AddTodo)
+export default AddTodo;

@@ -1,9 +1,16 @@
-import { connect } from "react-redux";
+import {  useSelector, useDispatch } from "react-redux";
 
-const FilterButton = ({onClick, active, children}) => {
+const FilterButton = ({ children, filter }) => {
+
+    const active = useSelector((state) =>  state.filter === filter)
+    const dispatch = useDispatch()
+
     return(
         <button 
-            onClick={onClick} 
+            onClick={() => dispatch({
+            type:"FILTER_TODO",
+            filter
+    })} 
             disabled={active}
             >
             {children}
@@ -11,14 +18,4 @@ const FilterButton = ({onClick, active, children}) => {
     )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    active: state.filter === ownProps.filter
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick: () => dispatch({
-        type:"FILTER_TODO",
-        filter: ownProps.filter
-    })
-})
-export default connect(mapStateToProps, mapDispatchToProps)(FilterButton)
+export default FilterButton;

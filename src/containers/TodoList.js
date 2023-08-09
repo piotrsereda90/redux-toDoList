@@ -1,22 +1,6 @@
-import { connect } from 'react-redux';
 import Todo from '../components/Todo';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleTodo, AVAILABLE_FILTERS } from '../actions/todo.actions';
-
-const TodoList = ({todos, toggleTodo}) => {
-    return(
-       <div>
-        <ul>
-        {todos.map(todo =>
-        <Todo 
-            onClick={()=> toggleTodo(todo.id)}
-            key={todo.id}
-            text={todo.text}
-            active={todo.complete}
-        />)}
-        </ul>
-       </div>
-    )
-}
 
 const filterTodos = (todos, filter) => {
     switch(filter){
@@ -29,12 +13,25 @@ const filterTodos = (todos, filter) => {
     }
 }
 
-const mapStateToProps = (state) => ({
-   todos: filterTodos(state.todos, state.filter)
-})
+const TodoList = () => {
+   
+    const dispatch = useDispatch()
 
-const mapDispatchToProps = (dispatch) => ({
-    toggleTodo: (id)=> dispatch(toggleTodo(id))
-})
+    const todos = useSelector((state)=> filterTodos(state.todos, state.filter))
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+    return(
+       <div>
+        <ul>
+        {todos.map(todo =>
+        <Todo 
+            onClick={()=> dispatch(toggleTodo(todo.id))}
+            id={todo.id}
+            text={todo.text}
+            active={todo.complete}
+        />)}
+        </ul>
+       </div>
+    )
+}
+
+export default TodoList;
